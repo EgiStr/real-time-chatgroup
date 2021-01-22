@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load widget_tweaks %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/setting.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    
+    
+        
+    <div class="card">
+        <div class="container">
+            <form action="" method="POST" id="sign-in" class="sign-in">
+            {% csrf_token %}
+                <h1 class="text">Login</h1>
+                <div class="input-field">
+                    <i class="fa fa-user"></i>
+                    <input id="email" type="text" name="username" placeholder="username">
+                </div>
+                <div class="input-field">
+                    <i class="fa fa-lock"></i>
+                    <input id="password" type="password" name="password" class="password" placeholder="Password">
+                    <button class="unmask" type="button"><i class="button fa fa-eye" aria-hidden="true"></i> </button>
+                
+                </div>
+
+                    {% if errorLogin %}
+                <div class="input-field">
+                    <i class="fa fa-ban" aria-hidden="true"></i>
+                    <h4 class="text-center" placeholder="wrong trua agian">wrong / Try again</h4>
+                </div>
+                    {% endif %}
+                    
+                <button class="btn" type='submit' name='submit' value='sign_in'>Sign In</button>
+                
+            </form>
+            <form action="" method="POST" id="sign-up" class="sign-up">
+            {% csrf_token %}
+                <h1 class="text">SIGN UP</h1>
+                <div class="input-field">
+                    <i class="fa fa-user"></i>
+                    {% render_field form.username  placeholder="Username...." %}
+                </div>
+                <div class="input-field">
+                    <i class="fa fa-envelope"></i>
+                    {% render_field form.email id="email"  placeholder="Email...." %}
+                </div>
+                <div class="input-field row">
+                    <i class="fa fa-lock"></i>
+                     {% render_field form.password1 class="password"  placeholder="Password " %}
+                     <button class="unmask" type="button"><i class="button fa fa-eye" aria-hidden="true"></i> </button>
+                </div>
+                <div class="input-field">
+                    <i class="fa fa-lock"></i>
+                    {% render_field form.password2 class="password"  placeholder="Password Confirm" %}
+                    <button class="unmask" type="button" style="border:0;"><i class="button fa fa-eye" aria-hidden="true"></i> </button>
+                </div>
+                        {% if error  %}
+                <div class="input-field">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            <p>Sign Not Valid</p>
+                </div>
+                        {% endif %}
+                <button class="btn" type='submit' name='submit' value='sign_up'>Sign UP</button>
+                
+            </form>
+        </div>
+    </div>
+    <div class="left-panel">
+        <div id="sign-up-btn" class="sign-up-btn" >
+            <h1 class="panel">Dont have account?</h1>
+            <h3 class="panel">create account to more experience</h3>
+            <input class="btn-signup" onclick="signup()" type="button" value="SIGN UP">
+        </div>
+        <div id="sign-in-btn" class="sign-in-btn" style="display:none;">
+            <h1 class="panel">Have account</h1>
+            <h3 class="panel">login if you have some</h3>
+            <input class="btn-signup" onclick="signin()" type="button" value="SIGN IN">
+        </div>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="{% static 'js/setting.js' %}"></script>
+    <script>
+        $('.unmask').on('click', function () {
+        if ($(this).prev('input').attr('type') == 'password')
+            $(this).prev('input').prop('type', 'text');
+        else
+            $(this).prev('input').prop('type', 'password');
+        return false;
+        });
+    </script>
+    
+        {% if error %}
+    <script>
+        function signup() {
+                $('#sign-up').removeClass("sign-up").addClass("sign-up-2");
+                $('#sign-in').removeClass("sign-in").addClass("sign-in-2");
+                    let btn = document.getElementById('sign-up-btn');
+                    let btn_2 = document.getElementById('sign-in-btn')
+                        btn.style.display = "none";
+                        btn_2.style.display = "";
+        }
+        signup()
+    </script>
+        {% endif %}
+
+</body>
+
+</html>
+
+{% comment %} /accounts/github/login/?process=login&amp;next=%2F {% endcomment %}
