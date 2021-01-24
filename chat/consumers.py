@@ -11,7 +11,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         databaru = Chat_log.objects.create(
             user=Usercostumer.objects.get(username=data['username']),
             content =  data['message'],
-            timestamp = datetime.datetime.now()
+            timestamp = datetime.datetime.now(),
+            room_name = self.room_name
         )
        
         content = {
@@ -35,7 +36,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send_lates(content)
 
     def get_database(self):
-        return Chat_log.objects.all()
+        return Chat_log.objects.filter(room_name = self.room_name)
 
     command = {
         'send_massage':new_massage,
